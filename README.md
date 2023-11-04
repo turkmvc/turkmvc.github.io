@@ -1,3 +1,9 @@
+![Picture 1](screens/1.PNG)
+![Picture 2](screens/2.PNG)
+![Picture 3](screens/3.PNG)
+![Picture 4](screens/4.PNG)
+![Picture 5](screens/5.PNG)
+![Picture 6](screens/6.PNG)
 #English:
 # My Portfolio
 
