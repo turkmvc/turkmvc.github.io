@@ -63,7 +63,7 @@ function addInjuredDriver() {
   container.appendChild(injuredDriverDiv);
   injuredDriverCount++;
 
-  // Araç plakalarını seçim kutusuna ekleyelim
+  // Araç plakalarını seçim kutusuna ekle
   updateInjuredDriverPlates();
 }
 
@@ -154,6 +154,107 @@ function updateInjuredDriverPlates() {
 }
 
 function submitForm() {
-  document.getElementById('accidentForm').style.display = 'none';
-  document.getElementById('confirmation').classList.remove('hidden');
+  const accidentForm = document.getElementById('accidentForm');
+  const confirmationDiv = document.getElementById('confirmation');
+
+  // Formdaki bilgileri al
+  const unit = accidentForm.querySelector('#unit').value;
+  const subject = accidentForm.querySelector('#subject').value;
+  const dateTime = accidentForm.querySelector('#dateTime').value;
+  const accidentLocation = accidentForm.querySelector('#accidentLocation').value;
+  const investigationUnit = accidentForm.querySelector('#investigationUnit').value;
+  const accidentDescription = accidentForm.querySelector('#accidentDescription').value;
+  const roadCondition = accidentForm.querySelector('#roadCondition').value;
+
+  // Kazaya karışan araç bilgilerini al
+  const driversInfo = drivers.map(driver => `PLAKA: ${driver.plate}, AÇIKLAMA: ${driver.description}`).join('\n');
+
+  // Yaralı sürücü bilgilerini al
+  const injuredDriversInfo = [];
+  for (let i = 1; i < injuredDriverCount; i++) {
+    const injuredDriverPlate = document.getElementById(`injuredDriverPlate${i}`).value;
+    const injuredDriverName = document.getElementById(`injuredDriverName${i}`).value;
+    const injuredDriverFatherName = document.getElementById(`injuredDriverFatherName${i}`).value;
+    const injuredDriverBirthDate = document.getElementById(`injuredDriverBirthDate${i}`).value;
+    const injuredDriverBirthPlace = document.getElementById(`injuredDriverBirthPlace${i}`).value;
+    const injuredDriverHealth = document.getElementById(`injuredDriverHealth${i}`).value;
+    const injuredDriverHospital = document.getElementById(`injuredDriverHospital${i}`).value;
+
+    injuredDriversInfo.push(`
+      ARAÇ: ${injuredDriverPlate},
+      AD SOYAD: ${injuredDriverName},
+      BABA ADI: ${injuredDriverFatherName},
+      DOĞUM TARİHİ: ${injuredDriverBirthDate},
+      DOĞUM YERİ: ${injuredDriverBirthPlace},
+      SAĞLIK DURUMU: ${injuredDriverHealth},
+      SEVK EDİLEN HASTANE: ${injuredDriverHospital}
+    `);
+  }
+
+  // Yaralı/Ölen bilgilerini al
+  const passengersInfo = [];
+  for (let i = 1; i < passengerCount; i++) {
+    const passengerPlate = document.getElementById(`passengerPlate${i}`).value;
+    const passengerType = document.getElementById(`passengerType${i}`).value;
+    const passengerName = document.getElementById(`passengerName${i}`).value;
+    const passengerFatherName = document.getElementById(`passengerFatherName${i}`).value;
+    const passengerBirthDate = document.getElementById(`passengerBirthDate${i}`).value;
+    const passengerBirthPlace = document.getElementById(`passengerBirthPlace${i}`).value;
+    const passengerHealth = document.getElementById(`passengerHealth${i}`).value;
+    const passengerHospital = document.getElementById(`passengerHospital${i}`).value;
+
+    passengersInfo.push(`
+      ARAÇ: ${passengerPlate},
+      Yaralı/Yolcu/Ölen Türü: ${passengerType},
+      AD SOYAD: ${passengerName},
+      BABA ADI: ${passengerFatherName},
+      DOĞUM TARİHİ: ${passengerBirthDate},
+      DOĞUM YERİ: ${passengerBirthPlace},
+      SAĞLIK DURUMU: ${passengerHealth},
+      SEVK EDİLEN HASTANE: ${passengerHospital}
+    `);
+  }
+
+  // MAKAMA ARZ bölümüne bilgileri ekle
+  confirmationDiv.innerHTML = `
+    <h2>***MAKAMA ARZ***</h2><br>
+    <strong>BİRİMİ: ${unit}</strong><br>
+    <strong>KONU: ${subject}</strong><br>
+    <strong>TARİH SAAT: ${dateTime}</strong><br>
+    <strong>KAZA YERİ: ${accidentLocation}</strong><br>
+    <strong>TAHKİKAT YAPAN BİRİM: ${investigationUnit}</strong><br>
+    <strong>KAZANIN OLUŞ ŞEKLİ: ${accidentDescription}</strong><br>
+    <strong>YOL DURUMU: ${roadCondition}</strong><br>
+
+    <h3>Kazaya Karışan Araçlar:</h3><br>
+    <p>${driversInfo}</p><br>
+
+    <h3>Yaralı Sürücüler:</h3><br>
+    <p>${injuredDriversInfo.join('</p><p>')}</p><br>
+
+    <h3>Yaralı/Ölen Bilgileri:</h3><br>
+    <p>${passengersInfo.join('</p><p>')}</p><br>
+    
+    <h2>Arz Ederim.</h2><br>
+
+    <button type="button" onclick="copyToClipboard()">İçeriği Kopyala</button>
+  `;
+
+  // Formu gizle, MAKAMA ARZ bölümünü göster
+  accidentForm.style.display = 'none';
+  confirmationDiv.classList.remove('hidden');
 }
+
+// Panoya kopyalama işlemi
+function copyToClipboard() {
+  const confirmationDiv = document.getElementById('confirmation');
+  const textToCopy = confirmationDiv.innerText;
+
+  // Clipboard API kullanarak panoya kopyala
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    alert('İçerik panoya kopyalandı!');
+  }).catch((err) => {
+    console.error('Kopyalama başarısız:', err);
+  });
+}
+
