@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Trafik Kazası Bilgi Notu</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Trafik Kazası Bilgi Notu</h1>
+      <form id="accidentForm">
+        <label for="unit">BİRİMİ:</label>
+        <input type="text" id="unit" name="unit" required />
+
+        <label for="subject">KONU:</label>
+        <input type="text" id="subject" name="subject" required />
+
+        <label for="dateTime">TARİH SAAT:</label>
+        <input type="datetime-local" id="dateTime" name="dateTime" required />
+
+        <label for="accidentLocation">KAZA YERİ:</label>
+        <textarea
+          id="accidentLocation"
+          name="accidentLocation"
+          rows="4"
+          cols="50"
+        ></textarea>
+
+        <label for="investigationUnit">TAHKİKAT YAPAN BİRİM:</label>
+        <input
+          type="text"
+          id="investigationUnit"
+          name="investigationUnit"
+          required
+        />
+        <label for="accidentDescription">KAZANIN OLUŞ ŞEKLİ:</label>
+        <textarea
+          id="accidentDescription"
+          name="accidentDescription"
+          rows="4"
+          cols="50"
+        ></textarea>
+
+        <label for="roadCondition">YOL DURUMU:</label>
+        <input type="text" id="roadCondition" name="roadCondition" required />
+
+        <button type="button" onclick="addDriver()">
+          Kazaya Karışan Araç Ekle
+        </button>
+        <div id="driversContainer"></div>
+
+        <button type="button" onclick="addInjuredDriver()">
+          Yaralı Sürücü Ekle
+        </button>
+        <div id="injuredDriversContainer"></div>
+
+        <button type="button" onclick="addPassenger()">Yaralı Ekle</button>
+        <div id="passengersContainer"></div>
+
+        <button type="button" onclick="submitForm()">Formu Gönder</button>
+      </form>
+
+      <div id="confirmation" class="hidden">
+        <h2>***MAKAMA ARZ***</h2>
+        <strong> Bu kısım formdaki bilgileri ile dolmalı. </strong>
+        <h3>Arz Ederim.</h3>
+        <button type="button">İçerigi Kopyala</button>
+      </div>
+    </div>
+
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>
